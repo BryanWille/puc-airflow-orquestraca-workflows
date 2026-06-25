@@ -51,7 +51,7 @@ def shopbrasil_pricing_pipeline():
         @task(
             task_id="buscar_produtos",
             retries=4,
-            retry_delay=timedelta(minutes=2),
+            retry_delay=timedelta(minutes=3),
             retry_exponential_backoff=True,
             on_failure_callback=alerta_falha,
             on_retry_callback=alerta_retry,
