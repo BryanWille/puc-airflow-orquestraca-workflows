@@ -1,0 +1,35 @@
+name: airflow-workers-dynamic
+
+services:
+  airflow-worker:
+    image: calango-airflow:2.10.5
+    environment:
+      AIRFLOW__CORE__EXECUTOR: CeleryExecutor
+      AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+      AIRFLOW__CORE__DEFAULT_TIMEZONE: America/Sao_Paulo
+
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@airflow-postgres:5432/airflow
+      AIRFLOW__CELERY__RESULT_BACKEND: db+postgresql://airflow:airflow@airflow-postgres:5432/airflow
+      AIRFLOW__CELERY__BROKER_URL: redis://airflow-redis:6379/0
+
+      AIRFLOW__WEBSERVER__SECRET_KEY: calango-secret-key
+
+      AIRFLOW_CONN_CALANGO_POSTGRES: postgres://airflow:airflow@airflow-postgres:5432/calango
+
+    volumes:
+      - ../airflow-scheduler/dags:/opt/airflow/dags
+      - airflow-scheduler_airflow_logs:/opt/airflow/logs
+
+    networks:
+      - airflow-net
+
+    command: celery worker
+
+networks:
+  airflow-net:
+    external: true
+    name: airflow-scheduler_airflow-net
+
+volumes:
+  airflow-scheduler_airflow_logs:
+    external: true
