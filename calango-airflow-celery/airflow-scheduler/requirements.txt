@@ -1,0 +1,4 @@
+requests
+redis
+apache-airflow-providers-celery
+apache-airflow-providers-postgres
