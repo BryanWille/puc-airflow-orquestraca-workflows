@@ -1,0 +1,13 @@
+python: "3.12"
+build_dependencies:
+  - pip
+  - setuptools
+  - wheel
+dependencies:
+  - mlflow
+  - scikit-learn
+  - pandas
+  - numpy
+  - matplotlib
+  - seaborn
+  - pandera
